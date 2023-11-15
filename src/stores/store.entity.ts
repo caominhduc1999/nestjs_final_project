@@ -15,6 +15,9 @@ export class StoreEntity extends BaseEntity {
     email: string
 
     @Column()
+    password: string
+
+    @Column()
     phone: string
 
     @Column()

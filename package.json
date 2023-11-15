@@ -37,6 +37,7 @@
     "express-list-routes": "^1.1.9",
     "mysql2": "^3.6.3",
     "nestjs-paginate": "^8.5.0",
+    "nestjs-typeorm-paginate": "^4.0.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.17"
