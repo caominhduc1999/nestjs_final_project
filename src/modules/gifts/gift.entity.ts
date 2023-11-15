@@ -2,7 +2,7 @@ import { BaseEntity } from "src/base/base.entity";
 import { Column, Entity } from "typeorm";
 
 @Entity({
-    name: 'stores'
+    name: 'gifts'
 })
 export class GiftEntity extends BaseEntity {
     @Column()
@@ -18,5 +18,5 @@ export class GiftEntity extends BaseEntity {
     quantity: number
 
     @Column()
-    gift_description: string
+    description: string
 }

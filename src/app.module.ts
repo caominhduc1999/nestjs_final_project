@@ -2,14 +2,15 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GiftRedeemEntity } from './gift_redeems/gift_redeem.entity';
-import { GiftEntity } from './gifts/gift.entity';
-import { PointCollectionEntity } from './point_collections/point_collection.entity';
-import { StoreEntity } from './stores/store.entity';
-import { UserEntity } from './users/user.entity';
-import { UserModule } from './users/user.module';
-import { UserController } from './users/user.controller';
-import { StoreModule } from './stores/store.module';
+import { GiftRedeemEntity } from './modules/gift_redeems/gift_redeem.entity';
+import { GiftEntity } from './modules/gifts/gift.entity';
+import { PointCollectionEntity } from './modules/point_collections/point_collection.entity';
+import { StoreEntity } from './modules/stores/store.entity';
+import { UserEntity } from './modules/users/user.entity';
+import { UserModule } from './modules/users/user.module';
+import { UserController } from './modules/users/user.controller';
+import { StoreModule } from './modules/stores/store.module';
+import { GiftModule } from './modules/gifts/gift.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { StoreModule } from './stores/store.module';
       synchronize: false,  // migration
     }),
     UserModule,
-    StoreModule
+    StoreModule,
+    GiftModule
   ],
   controllers: [AppController],
   providers: [AppService],
