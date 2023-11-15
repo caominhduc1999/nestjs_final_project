@@ -12,10 +12,6 @@ export class StoreController {
     constructor(private readonly storeService: StoreService) {}
 
     @Get()
-    // async index() {
-        // return await this.storeService.findAll();
-    // }
-
     async index(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
         @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
@@ -45,9 +41,7 @@ export class StoreController {
             password: await pbkdf2(store.password)
         };
         
-        const savedStore = await this.storeService.save(newStore);
-
-        return savedStore;
+        return await this.storeService.save(newStore);
     }
 
     @Put(':id')
@@ -57,9 +51,7 @@ export class StoreController {
             password: await pbkdf2(store.password)
         };
         
-        const updatedStore = await this.storeService.update(id, updateStore);
-
-        return updatedStore;
+        return await this.storeService.update(id, updateStore);
     }
 
     @Get(':id')
