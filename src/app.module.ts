@@ -7,25 +7,28 @@ import { GiftEntity } from './gifts/gift.entity';
 import { PointCollectionEntity } from './point_collections/point_collection.entity';
 import { StoreEntity } from './stores/store.entity';
 import { UserEntity } from './users/user.entity';
+import { UserModule } from './users/user.module';
+import { UserController } from './users/user.controller';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: '',
-    //   database: 'loyalty_system',
-    //   entities: [
-    //     GiftRedeemEntity,
-    //     GiftEntity,
-    //     PointCollectionEntity,
-    //     StoreEntity,
-    //     UserEntity
-    //   ],
-    //   synchronize: true,  // migration
-    // }),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.MYSQL_HOST,
+      port: +process.env.MYSQL_PORT,
+      username: 'root',
+      password: process.env.MYSQL_PASSWORD,
+      database: 'loyalty_system',
+      entities: [
+        GiftRedeemEntity,
+        GiftEntity,
+        PointCollectionEntity,
+        StoreEntity,
+        UserEntity
+      ],
+      synchronize: false,  // migration
+    }),
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
