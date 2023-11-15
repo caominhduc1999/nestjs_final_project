@@ -9,6 +9,7 @@ import { StoreEntity } from './stores/store.entity';
 import { UserEntity } from './users/user.entity';
 import { UserModule } from './users/user.module';
 import { UserController } from './users/user.controller';
+import { StoreModule } from './stores/store.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { UserController } from './users/user.controller';
       ],
       synchronize: false,  // migration
     }),
-    UserModule
+    UserModule,
+    StoreModule
   ],
   controllers: [AppController],
   providers: [AppService],
