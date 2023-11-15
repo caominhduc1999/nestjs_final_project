@@ -6,10 +6,10 @@ import { Column, Entity } from "typeorm";
 })
 export class UserEntity extends BaseEntity {
     @Column()
-    firstName: string
+    first_name: string
 
     @Column()
-    lastName: string
+    last_name: string
 
     @Column()
     phone: string
@@ -23,4 +23,10 @@ export class UserEntity extends BaseEntity {
         default: 1
     })
     rank: number
+
+    @Column()
+    created_at: Date
+
+    @Column()
+    updated_at: Date
 }
