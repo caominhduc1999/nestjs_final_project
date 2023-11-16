@@ -51,6 +51,10 @@ export class UserDto {
     @Expose()
     full_name: string
 
+    // @Transform(({obj}) => obj.first_name + ' ' + obj.last_name)
+    // @Expose()
+    // store_name: string
+
     @Expose()
     created_at: Date
 

@@ -1,5 +1,6 @@
 import { BaseEntity } from "src/base/base.entity";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import { UserEntity } from "../users/user.entity";
 
 @Entity({
     name: 'stores'
@@ -29,4 +30,7 @@ export class Store extends BaseEntity {
         default: 1
     })
     is_approved: number
+
+    @OneToMany(() => UserEntity, user => user.store)
+    users: UserEntity[]
 }
