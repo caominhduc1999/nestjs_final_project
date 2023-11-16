@@ -13,4 +13,10 @@ export class PointCollectionEntity extends BaseEntity {
 
     @Column()
     order_value: number
+
+    @Column()
+    created_at: Date
+
+    @Column()
+    updated_at: Date
 }

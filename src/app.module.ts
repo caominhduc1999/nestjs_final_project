@@ -13,6 +13,7 @@ import { StoreModule } from './modules/stores/store.module';
 import { GiftModule } from './modules/gifts/gift.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtSharedModule } from './modules/shared/jwt.module';
+import { PointCollectionModule } from './modules/point_collections/point_collection.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { JwtSharedModule } from './modules/shared/jwt.module';
     StoreModule,
     GiftModule,
     AuthModule,
-    JwtSharedModule
+    JwtSharedModule,
+    PointCollectionModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,19 +6,28 @@ import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService,
         private jwtService: JwtService    
     ) {}
 
-    @Post('login')
-    async login(
+    @Post('user/login')
+    async userLogin(
+        @Body('phone') phone: string,
+        @Body('code') code: string,
+        @Res({ passthrough: true }) response: Response,
+    ) {
+        return await this.authService.login(null, null, phone, code, response, 'user');
+    }
+
+    @Post('store/login')
+    async storeLogin(
         @Body('email') email: string,
         @Body('password') password: string,
-        @Res({passthrough: true}) response: Response
+        @Res({ passthrough: true }) response: Response,
     ) {
-        return await this.authService.login(email, password, response);
+        return await this.authService.login(email, password, null, null, response, 'store');
     }
 
     @Get('cookie')

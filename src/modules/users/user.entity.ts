@@ -34,6 +34,9 @@ export class UserEntity extends BaseEntity {
     @Column()
     updated_at: Date
 
+    @Column()
+    code: string
+
     @ManyToOne(() => Store, store => store.users)
     @JoinColumn({ name: 'store_id' })
     store: Store;
