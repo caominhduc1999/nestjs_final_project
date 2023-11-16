@@ -4,7 +4,7 @@ import { Column, Entity } from "typeorm";
 @Entity({
     name: 'stores'
 })
-export class StoreEntity extends BaseEntity {
+export class Store extends BaseEntity {
     @Column()
     name: string
 

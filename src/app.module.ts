@@ -5,12 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GiftRedeemEntity } from './modules/gift_redeems/gift_redeem.entity';
 import { GiftEntity } from './modules/gifts/gift.entity';
 import { PointCollectionEntity } from './modules/point_collections/point_collection.entity';
-import { StoreEntity } from './modules/stores/store.entity';
+import { Store } from './modules/stores/store.entity';
 import { UserEntity } from './modules/users/user.entity';
 import { UserModule } from './modules/users/user.module';
 import { UserController } from './modules/users/user.controller';
 import { StoreModule } from './modules/stores/store.module';
 import { GiftModule } from './modules/gifts/gift.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -25,14 +26,15 @@ import { GiftModule } from './modules/gifts/gift.module';
         GiftRedeemEntity,
         GiftEntity,
         PointCollectionEntity,
-        StoreEntity,
+        Store,
         UserEntity
       ],
       synchronize: false,  // migration
     }),
     UserModule,
     StoreModule,
-    GiftModule
+    GiftModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
