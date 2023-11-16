@@ -4,8 +4,9 @@ import { StoreService } from './store.service';
 import { pbkdf2 } from 'src/helpers/crypto.helper';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { ErrorHelper } from 'src/helpers/error.utils';
-import { StoreEntity } from './store.entity';
+import { Store } from './store.entity';
 import { StoreResponseDto } from './storeRespose.dto';
+import * as bcrypt from 'bcrypt';
 
 @Controller('stores')
 export class StoreController {
@@ -22,9 +23,9 @@ export class StoreController {
             limit,
         });
     
-        // Map StoreEntity to StoreResponseDto
-        const items = result.items.map((storeEntity) => {
-            const { password, ...rest } = storeEntity;
+        // Map Store to StoreResponseDto
+        const items = result.items.map((store) => {
+            const { password, ...rest } = store;
             return rest;
         });
     
@@ -38,7 +39,7 @@ export class StoreController {
     async store(@Body() store: StoreDto): Promise<StoreDto> {
         const newStore: StoreDto = {
             ...store,
-            password: await pbkdf2(store.password)
+            password: await bcrypt.hash(store.password, 12)
         };
         
         return await this.storeService.save(newStore);
@@ -48,7 +49,7 @@ export class StoreController {
     async update(@Param('id') id: string, @Body() store: StoreDto): Promise<{result: string}> {
         const updateStore: StoreDto = {
             ...store,
-            password: await pbkdf2(store.password)
+            password: await bcrypt.hash(store.password, 12)
         };
         
         return await this.storeService.update(id, updateStore);
