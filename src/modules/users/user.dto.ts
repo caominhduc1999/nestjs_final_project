@@ -4,7 +4,7 @@ import { Rank } from "src/enums/rank.enums";
 
 export class UserDto {
     @Expose()
-    id: string
+    id: number
 
     @IsString()
     @IsNotEmpty()
@@ -20,6 +20,10 @@ export class UserDto {
     email: string
 
     @IsEnum(Rank)
+    
+    @Expose()
+    rank: string
+
     @Transform(({ value }) => {
         switch (value) {
             case 1:
@@ -32,8 +36,7 @@ export class UserDto {
                 return 'UNKNOWN';
         }
     })
-    @Expose()
-    rank: string
+    rank_name: string
 
     @IsString()
     @IsNotEmpty()

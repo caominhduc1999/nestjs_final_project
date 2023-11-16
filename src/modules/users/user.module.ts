@@ -4,7 +4,7 @@ import { UserEntity } from "./user.entity";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 import { JwtSharedModule } from "../shared/jwt.module";
-import { JwtMiddleware } from "src/common/jwt.middleware";
+import { UserJwtMiddleware } from "src/common/user.jwt.middleware";
 
 @Module({
     imports: [
@@ -16,6 +16,6 @@ import { JwtMiddleware } from "src/common/jwt.middleware";
 })
 export class UserModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(JwtMiddleware).forRoutes(UserController);
+        consumer.apply(UserJwtMiddleware).forRoutes(UserController);
     }
 }
