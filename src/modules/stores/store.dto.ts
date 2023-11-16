@@ -4,7 +4,7 @@ import { Rank } from "src/enums/rank.enums";
 
 export class StoreDto {
     @Expose()
-    id: string
+    id: number
 
     @IsString()
     @IsNotEmpty()
@@ -38,4 +38,12 @@ export class StoreDto {
 
     @Expose()
     updated_at: Date
+
+    users: object
+
+    @Expose()
+    is_approved: number
+
+    @Expose()
+    code: number
 }

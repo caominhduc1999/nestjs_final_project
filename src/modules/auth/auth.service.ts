@@ -25,8 +25,6 @@ export class AuthService {
         @Res({passthrough: true}) response: Response
     ) {
         const store = await this.storeRepository.findOneBy('email', email);
-        console.log(await bcrypt.compare(password, store.password));
-        
 
         if (!store) {
             ErrorHelper.BadRequestException('Invalid credentials');
@@ -37,11 +35,12 @@ export class AuthService {
         }
 
         const jwt = await this.jwtService.signAsync({id: store.id});
-
+        
         response.cookie('jwt', jwt, {httpOnly: true});
 
         return {
-            message: 'success'
+            message: 'success',
+            access_token: jwt
         };
     }
 }

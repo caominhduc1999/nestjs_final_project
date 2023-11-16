@@ -12,6 +12,7 @@ import { UserController } from './modules/users/user.controller';
 import { StoreModule } from './modules/stores/store.module';
 import { GiftModule } from './modules/gifts/gift.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { JwtSharedModule } from './modules/shared/jwt.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { AuthModule } from './modules/auth/auth.module';
     UserModule,
     StoreModule,
     GiftModule,
-    AuthModule
+    AuthModule,
+    JwtSharedModule
   ],
   controllers: [AppController],
   providers: [AppService],
