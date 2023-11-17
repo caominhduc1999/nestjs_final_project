@@ -14,6 +14,7 @@ import { GiftModule } from './modules/gifts/gift.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtSharedModule } from './modules/shared/jwt.module';
 import { PointCollectionModule } from './modules/point_collections/point_collection.module';
+import { GiftRedeemModule } from './modules/gift_redeems/gift_redeem.module';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { PointCollectionModule } from './modules/point_collections/point_collect
     GiftModule,
     AuthModule,
     JwtSharedModule,
-    PointCollectionModule
+    PointCollectionModule,
+    GiftRedeemModule
   ],
   controllers: [AppController],
   providers: [AppService],
