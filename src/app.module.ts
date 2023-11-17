@@ -15,6 +15,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { JwtSharedModule } from './modules/shared/jwt.module';
 import { PointCollectionModule } from './modules/point_collections/point_collection.module';
 import { GiftRedeemModule } from './modules/gift_redeems/gift_redeem.module';
+import { TwilioModule } from './modules/twilio/twilio.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -40,7 +42,11 @@ import { GiftRedeemModule } from './modules/gift_redeems/gift_redeem.module';
     AuthModule,
     JwtSharedModule,
     PointCollectionModule,
-    GiftRedeemModule
+    GiftRedeemModule,
+    TwilioModule,
+    ConfigModule.forRoot({
+      isGlobal: true,  // Make the ConfigModule global
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

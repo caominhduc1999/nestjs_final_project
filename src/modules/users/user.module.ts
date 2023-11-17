@@ -5,6 +5,9 @@ import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 import { JwtSharedModule } from "../shared/jwt.module";
 import { UserJwtMiddleware } from "src/common/user.jwt.middleware";
+import { TwilioService } from "../twilio/twilio.service";
+import { ConfigService } from "@nestjs/config";
+import { UserRepository } from "./user.repository";
 
 @Module({
     imports: [
@@ -12,7 +15,7 @@ import { UserJwtMiddleware } from "src/common/user.jwt.middleware";
         JwtSharedModule
     ],
     controllers: [UserController],
-    providers: [UserService]
+    providers: [UserService, TwilioService, ConfigService, UserRepository]
 })
 export class UserModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
