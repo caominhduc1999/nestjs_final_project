@@ -82,4 +82,10 @@ export class BaseRepository<Model extends BaseEntity> extends EventEmitter {
 
     return foundModel;
   }
+
+  async update(id: string, model: any): Promise<{result: string}> {
+      const updateResult = await this.model.update(id, model as any);
+
+      return {result: 'success'};
+  }
 }

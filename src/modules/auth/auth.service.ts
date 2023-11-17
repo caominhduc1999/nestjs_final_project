@@ -58,7 +58,10 @@ export class AuthService {
             }
         }
 
-        // update user code to null: TODO
+        if (entityName == 'User') {
+            // update user code to null: TODO
+            await this.userRepository.update(entity.id, { code: null });
+        }
 
         const jwt = await this.jwtService.signAsync({id: entity.id});
         
