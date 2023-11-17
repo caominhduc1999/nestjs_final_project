@@ -44,7 +44,6 @@ export class PointCollectionController {
         const userId: string = request['user']?.id;
         
         const point = await this.pointCollectionService.getPointsByUserId(userId);
-        console.log(point);
         
         return {
             result: point

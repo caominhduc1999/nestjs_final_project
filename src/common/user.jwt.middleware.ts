@@ -32,7 +32,6 @@ export class UserJwtMiddleware implements NestMiddleware {
             }
             
             req['user'] = data; // Attach user data to the request object for later use
-            console.log(data);
             
             next();
         } catch (error) {

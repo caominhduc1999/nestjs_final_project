@@ -24,6 +24,6 @@ export class PointCollectionService extends BaseService<PointCollectionEntity, P
             }
         });
 
-        return pointCollection.reduce((sum, point) => sum + point.point, 0);
+        return pointCollection.reduce((sum, point) => sum + point.point, 0) ?? 0;
     }
 }

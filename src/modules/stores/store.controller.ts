@@ -88,8 +88,6 @@ export class StoreController {
     @Get(':id')
     async show(@Param('id') id: string) {
         const store = await this.storeService.findOne(id);
-        console.log(store);
-        
         
         if (!store) {
             ErrorHelper.BadRequestException('Not found store');
