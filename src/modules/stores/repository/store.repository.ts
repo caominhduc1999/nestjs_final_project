@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityRepository, Repository } from 'typeorm';
-import { Store } from './store.entity';
+import { Store } from '../../../entities';
 import { BaseRepository } from 'src/base/base.repository';
 
 @EntityRepository(Store)

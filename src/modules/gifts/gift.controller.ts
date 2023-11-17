@@ -14,12 +14,12 @@ import {
     Req
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { GiftDto } from './gift.dto';
+import { GiftDto } from './dto/gift.dto';
 import { GiftService } from './gift.service';
 import { pbkdf2 } from 'src/helpers/crypto.helper';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { ErrorHelper } from 'src/helpers/error.utils';
-import { GiftEntity } from './gift.entity';
+import { GiftEntity } from '../../entities';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path = require('path');

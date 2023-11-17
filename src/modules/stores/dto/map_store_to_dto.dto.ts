@@ -1,6 +1,6 @@
-import { Store } from './store.entity';
+import { Store } from '../../../entities';
 import { StoreDto } from './store.dto';
-import { UserEntity } from '../users/user.entity';
+import { UserEntity } from '../../../entities';
 
 export function mapStoreToDto(store: Store, users: UserEntity[]): any {
   return {

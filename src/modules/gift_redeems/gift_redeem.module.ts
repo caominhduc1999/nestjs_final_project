@@ -4,16 +4,16 @@ import { JwtSharedModule } from "../shared/jwt.module";
 import { UserJwtMiddleware } from "src/common/user.jwt.middleware";
 import { GiftRedeemController } from "./gift_redeem.controller";
 import { UserService } from "../users/user.service";
-import { UserEntity } from "../users/user.entity";
-import { GiftEntity } from "../gifts/gift.entity";
+import { UserEntity } from "../../entities";
+import { GiftEntity } from "../../entities";
 import { GiftRedeemService } from "./gift_redeem.service";
-import { GiftRedeemRepository } from "./gift_redeem.repository";
-import { GiftRedeemEntity } from "./gift_redeem.entity";
+import { GiftRedeemRepository } from "./repository/gift_redeem.repository";
+import { GiftRedeemEntity } from "../../entities";
 import { GiftService } from "../gifts/gift.service";
 import { PointCollectionService } from "../point_collections/point_collection.service";
-import { PointCollectionEntity } from "../point_collections/point_collection.entity";
+import { PointCollectionEntity } from "../../entities";
 import { StoreService } from "../stores/store.service";
-import { Store } from "../stores/store.entity";
+import { Store } from "../../entities";
 
 @Module({
     imports: [

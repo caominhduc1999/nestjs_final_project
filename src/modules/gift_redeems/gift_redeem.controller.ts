@@ -3,7 +3,7 @@ import { UserPointDto } from '../users/user_point.dto';
 import { ErrorHelper } from 'src/helpers/error.utils';
 import { pointCalculate } from 'src/helpers/common.helper';
 import { UserService } from '../users/user.service';
-import { UserDto } from '../users/user.dto';
+import { UserDto } from '../users/dto/user.dto';
 import { GiftRedeemService } from './gift_redeem.service';
 import { GiftService } from '../gifts/gift.service';
 import { PointCollectionService } from '../point_collections/point_collection.service';

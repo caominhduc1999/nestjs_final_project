@@ -1,6 +1,7 @@
 import { Length, IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { Expose, Transform } from "class-transformer"
 import { Rank } from "src/enums/rank.enums";
+import { IsUnique } from "../../shared/validator/is-unique";
 
 export class StoreDto {
     @Expose()
@@ -16,12 +17,14 @@ export class StoreDto {
     @IsNotEmpty()
     @Length(0, 100)
     @Expose()
+    @IsUnique({tableName: 'stores', column: 'phone'})
     phone: string
 
     @IsString()
     @IsNotEmpty()
     @Length(0, 100)
     @IsEmail()
+    @IsUnique({tableName: 'stores', column: 'email'})
     @Expose()
     email: string
 

@@ -1,13 +1,13 @@
 import {Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Store } from './store.entity';
+import { Store } from '../../entities';
 import { Repository } from 'typeorm';
-import { StoreDto } from './store.dto';
+import { StoreDto } from './dto/store.dto';
 import { BaseService } from 'src/base/base.service';
 import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
-import { UserEntity } from '../users/user.entity';
-import { UserDto } from '../users/user.dto';
-import { mapStoreToDto } from './map_store_to_dto.dto';
+import { UserEntity } from '../../entities';
+import { UserDto } from '../users/dto/user.dto';
+import { mapStoreToDto } from './dto/map_store_to_dto.dto';
 
 @Injectable()
 export class StoreService extends BaseService<Store, StoreDto> {
@@ -38,5 +38,4 @@ export class StoreService extends BaseService<Store, StoreDto> {
       
           return modifiedResult;
       }
-
 }

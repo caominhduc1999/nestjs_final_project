@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {ValidationPipe} from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import { useContainer } from 'class-validator';
 
 require('dotenv').config();
 require('cookie-parser');
@@ -10,6 +11,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  useContainer(app.select(AppModule), {fallbackOnErrors: true})
   app.use(cookieParser());
   app.enableCors({
     origin: 'http://localhost:8080',

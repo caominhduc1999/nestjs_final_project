@@ -1,6 +1,6 @@
 import { BaseEntity } from "src/base/base.entity";
 import { Column, Entity, OneToMany } from "typeorm";
-import { UserEntity } from "../users/user.entity";
+import { UserEntity } from "./user.entity";
 
 @Entity({
     name: 'stores'

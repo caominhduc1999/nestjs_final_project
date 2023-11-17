@@ -1,8 +1,8 @@
 import {Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GiftEntity } from './gift.entity';
+import { GiftEntity } from '../../entities';
 import { Repository } from 'typeorm';
-import { GiftDto } from './gift.dto';
+import { GiftDto } from './dto/gift.dto';
 import { BaseService } from 'src/base/base.service';
 import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 
