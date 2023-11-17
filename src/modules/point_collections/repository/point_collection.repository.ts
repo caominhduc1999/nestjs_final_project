@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityRepository, Repository } from 'typeorm';
 import { BaseRepository } from 'src/base/base.repository';
-import { PointCollectionEntity } from './point_collection.entity';
+import { PointCollectionEntity } from '../../../entities';
 
 @EntityRepository(PointCollectionEntity)
 export class PointCollectionRepository extends BaseRepository<PointCollectionEntity> {

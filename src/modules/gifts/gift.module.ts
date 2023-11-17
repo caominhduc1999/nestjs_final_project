@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { GiftEntity } from "./gift.entity";
+import { GiftEntity } from "../../entities";
 import { GiftController } from "./gift.controller";
 import { GiftService } from "./gift.service";
 

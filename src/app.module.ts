@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GiftRedeemEntity } from './modules/gift_redeems/gift_redeem.entity';
-import { GiftEntity } from './modules/gifts/gift.entity';
-import { PointCollectionEntity } from './modules/point_collections/point_collection.entity';
-import { Store } from './modules/stores/store.entity';
-import { UserEntity } from './modules/users/user.entity';
+import { GiftRedeemEntity } from './entities';
+import { GiftEntity } from './entities';
+import { PointCollectionEntity } from './entities';
+import { Store } from './entities';
+import { UserEntity } from './entities';
 import { UserModule } from './modules/users/user.module';
 import { UserController } from './modules/users/user.controller';
 import { StoreModule } from './modules/stores/store.module';
@@ -17,6 +17,7 @@ import { PointCollectionModule } from './modules/point_collections/point_collect
 import { GiftRedeemModule } from './modules/gift_redeems/gift_redeem.module';
 import { TwilioModule } from './modules/twilio/twilio.module';
 import { ConfigModule } from '@nestjs/config';
+import { IsUniqueConstraint } from './modules/shared/validator/is-unique-constraint';
 
 @Module({
   imports: [
@@ -49,6 +50,6 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, IsUniqueConstraint],
 })
 export class AppModule {}

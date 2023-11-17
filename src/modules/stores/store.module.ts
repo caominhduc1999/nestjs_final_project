@@ -1,9 +1,9 @@
 import { Module, MiddlewareConsumer, NestModule } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Store } from "./store.entity";
+import { Store } from "../../entities";
 import { StoreController } from "./store.controller";
 import { StoreService } from "./store.service";
-import { UserEntity } from "../users/user.entity";
+import { UserEntity } from "../../entities";
 import { JwtSharedModule } from "../shared/jwt.module";
 import { JwtMiddleware } from "src/common/jwt.middleware";
 @Module({

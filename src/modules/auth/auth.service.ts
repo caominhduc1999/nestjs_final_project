@@ -1,15 +1,15 @@
 import { Injectable, Body, Res } from '@nestjs/common';
 import { BaseService } from 'src/base/base.service';
-import { Store } from '../stores/store.entity';
-import { StoreDto } from '../stores/store.dto';
+import { Store } from '../../entities';
+import { StoreDto } from '../stores/dto/store.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { StoreRepository } from '../stores/store.repository';
+import { StoreRepository } from '../stores/repository/store.repository';
 import { ErrorHelper } from 'src/helpers/error.utils';
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { JwtService } from '@nestjs/jwt/dist';
-import { UserRepository } from '../users/user.repository';
+import { UserRepository } from '../users/repository/user.repository';
 
 @Injectable()
 export class AuthService {

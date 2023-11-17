@@ -2,12 +2,15 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { StoreRepository } from "../stores/store.repository";
-import { Store } from "../stores/store.entity";
+import { StoreRepository } from "../stores/repository/store.repository";
+import { Store } from "../../entities";
 import { JwtModule } from "@nestjs/jwt/dist";
 import { Response } from "express";
-import { UserRepository } from "../users/user.repository";
-import { UserEntity } from "../users/user.entity";
+import { UserRepository } from "../users/repository/user.repository";
+import { UserEntity } from "../../entities";
+import { TwilioService } from "../twilio/twilio.service";
+import { UserService } from "../users/user.service";
+import { StoreService } from "../stores/store.service";
 
 @Module({
     imports: [
@@ -18,7 +21,7 @@ import { UserEntity } from "../users/user.entity";
         })
     ],
     controllers: [AuthController],
-    providers: [AuthService, StoreRepository, UserRepository],
+    providers: [AuthService, StoreRepository, UserRepository, TwilioService, UserService, StoreService],
     exports: []
 })
 export class AuthModule {

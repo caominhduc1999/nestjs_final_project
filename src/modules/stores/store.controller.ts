@@ -1,14 +1,14 @@
 import {Body, Controller, Param, Post, Put, Get, Delete, Query, DefaultValuePipe, ParseIntPipe, Req } from '@nestjs/common';
-import { StoreDto } from './store.dto';
+import { StoreDto } from './dto/store.dto';
 import { StoreService } from './store.service';
 import { pbkdf2 } from 'src/helpers/crypto.helper';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { ErrorHelper } from 'src/helpers/error.utils';
-import { Store } from './store.entity';
-import { StoreResponseDto } from './storeRespose.dto';
+import { Store } from '../../entities';
+import { StoreResponseDto } from './dto/storeRespose.dto';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
-import { ApproveDto } from './approve.dto';
+import { ApproveDto } from './dto/approve.dto';
 import { APPROVED, INAPPROVED } from 'src/constants';
 
 @Controller('stores')
@@ -19,11 +19,15 @@ export class StoreController {
     async index(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
         @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+        @Req() req: Request,
     ): Promise<Pagination<StoreResponseDto>> {
         limit = limit > 100 ? 100 : limit;
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const route = `${baseUrl}/stores`;
         const result = await this.storeService.paginate({
             page,
             limit,
+            route
         });
 
         // Map Store to StoreResponseDto

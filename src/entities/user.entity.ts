@@ -1,6 +1,6 @@
 import { BaseEntity } from "src/base/base.entity";
 import { Column, Entity, ManyToOne, JoinColumn } from "typeorm";
-import { Store } from "../stores/store.entity";
+import { Store } from "./store.entity";
 
 @Entity({
     name: 'users'
@@ -12,10 +12,14 @@ export class UserEntity extends BaseEntity {
     @Column()
     last_name: string
 
-    @Column()
+    @Column({
+        unique: true
+    })
     phone: string
 
-    @Column()
+    @Column({
+        unique: true
+    })
     email: string
 
     @Column()

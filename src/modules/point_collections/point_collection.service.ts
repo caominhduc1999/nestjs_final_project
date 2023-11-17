@@ -6,8 +6,8 @@ import { log } from 'console';
 import { Request } from 'express';
 import { pointCalculate } from 'src/helpers/common.helper';
 import { ErrorHelper } from 'src/helpers/error.utils';
-import { PointCollectionEntity } from './point_collection.entity';
-import { PointCollectionDto } from './point_collection.dto';
+import { PointCollectionEntity } from '../../entities';
+import { PointCollectionDto } from './dto/point_collection.dto';
 
 @Injectable()
 export class PointCollectionService extends BaseService<PointCollectionEntity, PointCollectionDto> {

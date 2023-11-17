@@ -2,11 +2,11 @@ import { Module, NestModule, MiddlewareConsumer  } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { JwtSharedModule } from "../shared/jwt.module";
 import { UserJwtMiddleware } from "src/common/user.jwt.middleware";
-import { PointCollectionEntity } from "./point_collection.entity";
+import { PointCollectionEntity } from "../../entities";
 import { PointCollectionController } from "./point_collection.controller";
 import { UserService } from "../users/user.service";
 import { PointCollectionService } from "./point_collection.service";
-import { UserEntity } from "../users/user.entity";
+import { UserEntity } from "../../entities";
 
 @Module({
     imports: [

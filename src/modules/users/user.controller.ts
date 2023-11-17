@@ -1,13 +1,15 @@
-import {Body, Controller, Param, Post, Put, Get, Delete, UseGuards, Req} from '@nestjs/common';
-import { UserDto } from './user.dto';
+import {Body, Controller, Param, Post, Put, Get, Delete, UseGuards, Req, Query, DefaultValuePipe, ParseIntPipe} from '@nestjs/common';
+import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import { UserPointDto } from './user_point.dto';
-
-import { UserEntity } from './user.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { UserEntity } from '../../entities';
 import { TwilioService } from '../twilio/twilio.service';
 import { MessageListInstanceCreateOptions } from 'twilio/lib/rest/api/v2010/account/message';
 import { ErrorHelper } from 'src/helpers/error.utils';
-import { UserRepository } from './user.repository';
+import { UserRepository } from './repository/user.repository';
+import { Request } from 'express';
+import { BRONZE_RANK } from 'src/constants';
 
 @Controller('users')
 export class UserController {
@@ -18,8 +20,21 @@ export class UserController {
     ) {}
 
     @Get()
-    index() {
-        return this.userService.findAll();
+    async index(
+        @Req() req: Request,
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    ): Promise<Pagination<any>> {
+        limit = limit > 100 ? 100 : limit;
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const route = `${baseUrl}/users`;
+        const result = await this.userService.paginate({
+            page,
+            limit,
+            route
+        });
+    
+        return result;
     }
 
 
@@ -29,7 +44,7 @@ export class UserController {
         @Req() request: Request
     ): Promise<{result: string}> {
         try {
-            const userId: string = request['user']?.id;
+            const userId: string = request['user']['id'];
             const user: any = await this.userService.findOne(userId);
             
             if (!user?.phone) {
@@ -60,9 +75,10 @@ export class UserController {
         const code = Math.floor(1000 + Math.random() * 9000);
         const registerUser = {
             ...user,
-            code: code
+            code: code,
+            rank: BRONZE_RANK
         }
-        return this.userService.save(user);
+        return this.userService.save(registerUser);
     }
 
     @Post()

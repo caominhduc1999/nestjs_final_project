@@ -6,8 +6,8 @@ import { log } from 'console';
 import { Request } from 'express';
 import { pointCalculate } from 'src/helpers/common.helper';
 import { ErrorHelper } from 'src/helpers/error.utils';
-import { GiftRedeemDto } from './gift_redeem.dto';
-import { GiftRedeemEntity } from './gift_redeem.entity';
+import { GiftRedeemDto } from './dto/gift_redeem.dto';
+import { GiftRedeemEntity } from '../../entities';
 
 @Injectable()
 export class GiftRedeemService extends BaseService<GiftRedeemEntity, GiftRedeemDto> {

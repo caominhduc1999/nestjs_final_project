@@ -3,9 +3,9 @@ import { UserPointDto } from '../users/user_point.dto';
 import { ErrorHelper } from 'src/helpers/error.utils';
 import { pointCalculate } from 'src/helpers/common.helper';
 import { UserService } from '../users/user.service';
-import { UserDto } from '../users/user.dto';
+import { UserDto } from '../users/dto/user.dto';
 import { PointCollectionService } from './point_collection.service';
-import { PointCollectionDto } from './point_collection.dto';
+import { PointCollectionDto } from './dto/point_collection.dto';
 
 @Controller('point-collection')
 export class PointCollectionController {
