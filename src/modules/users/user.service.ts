@@ -17,8 +17,12 @@ export class UserService extends BaseService<UserEntity, UserDto> {
         super(userRepository, UserDto);
     }
 
-    async paginate(options: IPaginationOptions): Promise<Pagination<UserEntity>> {
+    async paginate(options: IPaginationOptions, storeId: string = null): Promise<Pagination<UserEntity>> {
         const queryBuilder = this.userRepository.createQueryBuilder('c');
+        
+        if (storeId != null) {
+            queryBuilder.where('c.store_id = :storeId', { storeId });
+        }
 
         return await paginate<UserEntity>(queryBuilder, options);
     }

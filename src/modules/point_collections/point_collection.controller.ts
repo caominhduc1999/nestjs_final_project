@@ -19,8 +19,7 @@ export class PointCollectionController {
         @Body() payload: UserPointDto,
         @Req() request: Request
     ): Promise<PointCollectionDto> {
-        const userId: string = request['user']?.id;
-        const user: any = await this.userService.findOne(userId);
+        const user: any = await this.userService.findOne(payload.user_id);
         
         if (!user) {
             ErrorHelper.NotFoundException('Not found user');
@@ -29,7 +28,7 @@ export class PointCollectionController {
         const earnPoint = pointCalculate(user.rank, payload.order_value);
         
         const pointCollection: any = {
-            user_id: userId,
+            user_id: payload.user_id,
             point: earnPoint,
             order_value: payload.order_value
         }

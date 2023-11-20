@@ -49,4 +49,6 @@ export class StoreDto {
 
     @Expose()
     code: number
+
+    
 }

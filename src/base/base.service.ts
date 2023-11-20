@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { FindOneOptions, Repository } from "typeorm";
 import { BaseEntity } from "./base.entity";
 import {plainToInstance} from 'class-transformer';
 import { BaseDto } from "./base.dto";

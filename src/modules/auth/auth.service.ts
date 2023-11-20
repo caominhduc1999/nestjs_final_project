@@ -1,4 +1,4 @@
-import { Injectable, Body, Res } from '@nestjs/common';
+import { Injectable, Body, Res, UnauthorizedException } from '@nestjs/common';
 import { BaseService } from 'src/base/base.service';
 import { Store } from '../../entities';
 import { StoreDto } from '../stores/dto/store.dto';
@@ -19,6 +19,16 @@ export class AuthService {
         private jwtService: JwtService
     ) {
       
+    }
+
+    async generateRefreshToken(user: any): Promise<string> {
+        // You can customize the payload as needed
+        const refreshPayload = { id: user.id, email: user.email };
+        const refreshToken = this.jwtService.sign(refreshPayload, { expiresIn: '7d' }); // Set the expiration time as needed
+        // Store the refresh token in your preferred storage (e.g., database)
+        // You may also want to associate the refresh token with the user
+
+        return refreshToken;
     }
 
     async login(
@@ -63,13 +73,55 @@ export class AuthService {
             await this.userRepository.update(entity.id, { code: null });
         }
 
+        const refreshToken = await this.generateRefreshToken(entity);
         const jwt = await this.jwtService.signAsync({id: entity.id});
         
         response.cookie('jwt', jwt, {httpOnly: true});
+        response.cookie('refreshToken', refreshToken, {httpOnly: true});
 
         return {
             message: 'success',
-            access_token: jwt
+            access_token: jwt,
+            refresh_token: refreshToken
         };
+    }
+
+    async refreshToken(
+        @Body('refreshToken') refreshToken: string,
+        @Res({ passthrough: true }) response: Response,
+        @Body('type') type: string,
+    ) {
+        try {
+            // Verify the refresh token
+            const decoded = this.jwtService.verify(refreshToken);
+            
+            let entity;
+            if (type === 'user') {
+                entity = await this.userRepository.findOneBy('id', decoded.id);
+            } else if (type === 'store') {
+                entity = await this.storeRepository.findOneBy('id', decoded.id);
+            } else {
+                ErrorHelper.UnauthorizedException('Invalid token type');
+            }
+
+
+            const newRefreshToken = await this.generateRefreshToken(entity);
+            // Generate a new access token
+            const accessToken = await this.jwtService.signAsync({ id: entity.id });
+
+            // Set the new access token in the response
+            response.cookie('jwt', accessToken, {
+                httpOnly: true,
+            });
+
+            return {
+                message: 'success',
+                access_token: accessToken,
+                refresh_token: newRefreshToken
+            };
+        } catch (error) {
+            // Handle token verification error (e.g., token expired, invalid token)
+            throw new UnauthorizedException('Invalid or expired refresh token');
+        }
     }
 }

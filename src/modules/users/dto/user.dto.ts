@@ -10,7 +10,7 @@ export class UserDto {
     @IsString()
     @IsNotEmpty()
     @Length(0, 100)
-    @IsUnique({tableName: 'users', column: 'phone'})
+    // @IsUnique({tableName: 'users', column: 'phone'})
     @Expose()
     phone: string
 
@@ -19,7 +19,7 @@ export class UserDto {
     @Length(0, 100)
     @IsEmail()
     @Expose()
-    @IsUnique({tableName: 'users', column: 'email'})
+    // @IsUnique({tableName: 'users', column: 'email'})
     email: string
 
     // @IsEnum(Rank)

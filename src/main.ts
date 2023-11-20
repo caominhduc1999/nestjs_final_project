@@ -3,13 +3,19 @@ import { AppModule } from './app.module';
 import {ValidationPipe} from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { useContainer } from 'class-validator';
+import { WinstonModule } from 'nest-winston';
+import { instance } from '../winston.logger';
 
 require('dotenv').config();
 require('cookie-parser');
 
 async function bootstrap() {
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger({
+      instance: instance,
+    }),
+  });
   app.useGlobalPipes(new ValidationPipe());
   useContainer(app.select(AppModule), {fallbackOnErrors: true})
   app.use(cookieParser());
@@ -34,6 +40,6 @@ async function bootstrap() {
       }
     })
     .filter(item => item !== undefined);
-  console.log(availableRoutes);
+  // console.log(availableRoutes);
 }
 bootstrap();
