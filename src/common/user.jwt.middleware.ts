@@ -39,7 +39,7 @@ export class UserJwtMiddleware implements NestMiddleware {
                 ErrorHelper.NotFoundException('Not found');
             }
             // Handle the error here (e.g., unauthorized access)
-            ErrorHelper.UnauthorizedException('Unauthorized');
+            ErrorHelper.UnauthorizedException('Unauthorized user');
         }
     }
 }

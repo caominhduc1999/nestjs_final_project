@@ -37,38 +37,36 @@ export class UserController {
         return result;
     }
 
-
-
-    @Post('send-code')
-    async sendCode(
-        @Req() request: Request
-    ): Promise<{result: string}> {
-        try {
-            const userId: string = request['user']['id'];
-            const user: any = await this.userService.findOne(userId);
+    // @Post('send-code')
+    // async sendCode(
+    //     @Req() request: Request
+    // ): Promise<{result: string}> {
+    //     try {
+    //         const userId: string = request['user']['id'];
+    //         const user: any = await this.userService.findOne(userId);
             
-            if (!user?.phone) {
-                ErrorHelper.BadRequestException('Not found phone');
-            }
+    //         if (!user?.phone) {
+    //             ErrorHelper.BadRequestException('Not found phone');
+    //         }
 
-            const code = Math.floor(100000 + Math.random() * 900000);
+    //         const code = Math.floor(100000 + Math.random() * 900000);
 
-            const smsOptions: MessageListInstanceCreateOptions = {
-                to: user.phone.replace(/^0/, '+84'),
-                from: process.env.TWILIO_FROM,
-                body: `This is your verify code: ${code}`,
-            };
+    //         const smsOptions: MessageListInstanceCreateOptions = {
+    //             to: user.phone.replace(/^0/, '+84'),
+    //             from: process.env.TWILIO_FROM,
+    //             body: `This is your verify code: ${code}`,
+    //         };
 
-            await this.userRepository.update(userId, { code: code });
-            this.twilioService.send(smsOptions);
+    //         await this.userRepository.update(userId, { code: code });
+    //         this.twilioService.send(smsOptions);
     
-            return {
-                result: 'success'
-            };
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //         return {
+    //             result: 'success'
+    //         };
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     @Post()
     register(@Body() user: UserDto): Promise<UserDto> {
