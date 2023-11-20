@@ -10,10 +10,15 @@ import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
 import { ApproveDto } from './dto/approve.dto';
 import { APPROVED, INAPPROVED } from 'src/constants';
+import { UserDto } from '../users/dto/user.dto';
+import { UserService } from '../users/user.service';
 
 @Controller('stores')
 export class StoreController {
-    constructor(private readonly storeService: StoreService) {}
+    constructor(
+        private readonly storeService: StoreService,
+        private readonly userService: UserService
+    ) {}
 
     @Get()
     async index(
@@ -89,6 +94,26 @@ export class StoreController {
         return await this.storeService.update(id, updateStore);
     }
 
+    @Get('users')
+    async getUsers(
+        @Req() request: Request,
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    ): Promise<any> {
+        const storeId = request['store']?.id;
+
+        limit = limit > 100 ? 100 : limit;
+        const baseUrl = `${request.protocol}://${request.get('host')}`;
+        const route = `${baseUrl}/stores/users`;
+        const result = await this.userService.paginate({
+            page,
+            limit,
+            route
+        }, storeId);
+
+        return result;
+    }
+
     @Get(':id')
     async show(@Param('id') id: string) {
         const store = await this.storeService.findOne(id);
@@ -110,4 +135,6 @@ export class StoreController {
 
         return this.storeService.deleteById(id);
     }
+
+    
 }

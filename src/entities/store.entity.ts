@@ -31,6 +31,8 @@ export class Store extends BaseEntity {
     })
     is_approved: number
 
-    @OneToMany(() => UserEntity, user => user.store)
+    @OneToMany(() => UserEntity, user => user.store, {
+        eager: true
+    })
     users: UserEntity[]
 }

@@ -1,4 +1,4 @@
-import {Body, Controller, Post, Res, Get, Req } from '@nestjs/common';
+import {Body, Controller, Post, Res, Get, Req, Logger } from '@nestjs/common';
 import { StoreService } from '../stores/store.service';
 import { ErrorHelper } from 'src/helpers/error.utils';
 import * as bcrypt from 'bcrypt';
@@ -11,7 +11,13 @@ import { MessageListInstanceCreateOptions } from 'twilio/lib/rest/api/v2010/acco
 import { TwilioService } from '../twilio/twilio.service';
 import { UserDto } from '../users/dto/user.dto';
 import { StoreDto } from '../stores/dto/store.dto';
-import { BRONZE_RANK } from 'src/constants';
+import { APPROVED, BRONZE_RANK } from 'src/constants';
+import { StoreRepository } from '../stores/repository/store.repository';
+import { RegisterStoreDto } from './dto/register-store.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
+import { UserLoginDto } from './dto/user-login.dto';
+import { StoreLoginDto } from './dto/store-login.dto';
+import * as fs from 'fs';
 
 @Controller('auth')
 export class AuthController {
@@ -20,13 +26,13 @@ export class AuthController {
         private readonly userRepository: UserRepository,
         private readonly twilioService: TwilioService,
         private readonly userService: UserService,
-        private readonly storeService: StoreService
+        private readonly storeService: StoreService,
+        private readonly storeRepository: StoreRepository,
+        private readonly logger: Logger
     ) {}
 
     @Post('user/register')
-    registerUser(@Body() user: UserDto): Promise<UserDto> {
-        console.log(user);
-        
+    registerUser(@Body() user: RegisterUserDto): Promise<UserDto> {
         const code = Math.floor(100000 + Math.random() * 900000);
         const registerUser = {
             ...user,
@@ -45,31 +51,56 @@ export class AuthController {
     }
 
     @Post('store/register')
-    registerStore(@Body() store: StoreDto): Promise<StoreDto> {
+    async registerStore(@Body() store: RegisterStoreDto): Promise<StoreDto> {
         const code = Math.floor(100000 + Math.random() * 900000);
         const registerStore = {
             ...store,
-            code: code
+            code: code,
+            password: await bcrypt.hash(store.password, 12)
         }
+
+        this.logger.log(`Store created successfully`);
+        this.logger.log(JSON.stringify(registerStore));
+
         return this.storeService.save(registerStore);
+    }
+
+    @Post('verify')
+    async verifyStore(
+        @Body('phone') phone: string,
+        @Body('code') code: string,
+    ): Promise<any> {
+        const store = await this.storeRepository.findOneBy('phone', phone);
+
+        if (!store) {
+            ErrorHelper.NotFoundException('Not found store');
+        }
+
+        if (code != store.code) {
+            ErrorHelper.BadRequestException('wrong code');
+        }
+
+        await this.storeRepository.update(store.id, { code: null, is_approved: APPROVED });
+
+        return {
+            result: 'success'
+        };
     }
 
     @Post('user/login')
     async userLogin(
-        @Body('phone') phone: string,
-        @Body('code') code: string,
+        @Body() userLogin: UserLoginDto,
         @Res({ passthrough: true }) response: Response,
     ) {
-        return await this.authService.login(null, null, phone, code, response, 'user');
+        return await this.authService.login(null, null, userLogin.phone, userLogin.code, response, 'user');
     }
 
     @Post('store/login')
     async storeLogin(
-        @Body('email') email: string,
-        @Body('password') password: string,
+        @Body() storeLogin: StoreLoginDto,
         @Res({ passthrough: true }) response: Response,
     ) {
-        return await this.authService.login(email, password, null, null, response, 'store');
+        return await this.authService.login(storeLogin.email, storeLogin.password, null, null, response, 'store');
     }
 
     @Get('cookie')
@@ -126,5 +157,40 @@ export class AuthController {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    @Post('store/refresh-token')
+    async storeRefreshToken(
+        @Body('refresh_token') refreshToken: string,
+        @Res({ passthrough: true }) response: Response
+    ) {
+        return await this.authService.refreshToken(refreshToken, response, 'store');
+    }
+
+    @Post('user/refresh-token')
+    async userRefreshToken(
+        @Body('refresh_token') refreshToken: string,
+        @Res({ passthrough: true }) response: Response
+    ) {
+        return await this.authService.refreshToken(refreshToken, response, 'user');
+    }
+
+    @Get('download-log')
+    async downloadLogFile(@Res() res: Response): Promise<void> {
+      const logFilePath = 'dev_combine.log';
+  
+      // Check if the file exists
+      if (!fs.existsSync(logFilePath)) {
+        res.status(404).send('Log file not found');
+        return;
+      }
+  
+      // Set the appropriate headers for file download
+      res.header('Content-Type', 'text/plain');
+      res.header('Content-Disposition', 'attachment; filename=dev_combine.log');
+  
+      // Stream the file content to the response
+      const fileStream = fs.createReadStream(logFilePath);
+      fileStream.pipe(res);
     }
 }

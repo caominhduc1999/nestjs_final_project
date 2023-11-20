@@ -33,7 +33,7 @@ export class StoreService extends BaseService<Store, StoreDto> {
       
           const modifiedResult = {
             ...result,
-            stores: storesWithUsers,
+            items: storesWithUsers,
           };
       
           return modifiedResult;

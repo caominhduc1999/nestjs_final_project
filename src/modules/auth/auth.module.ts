@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Logger, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
@@ -21,7 +21,7 @@ import { StoreService } from "../stores/store.service";
         })
     ],
     controllers: [AuthController],
-    providers: [AuthService, StoreRepository, UserRepository, TwilioService, UserService, StoreService],
+    providers: [AuthService, StoreRepository, UserRepository, TwilioService, UserService, StoreService, Logger],
     exports: []
 })
 export class AuthModule {
