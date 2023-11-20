@@ -103,6 +103,14 @@ export class AuthController {
         return await this.authService.login(storeLogin.email, storeLogin.password, null, null, response, 'store');
     }
 
+    @Post('admin/login')
+    async adminLogin(
+        @Body() adminLogin: StoreLoginDto,
+        @Res({ passthrough: true }) response: Response,
+    ) {
+        return await this.authService.login(adminLogin.email, adminLogin.password, null, null, response, 'admin');
+    }
+
     @Get('cookie')
     async getCookie(@Req() request: Request) {
         try {

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GiftRedeemEntity } from './entities';
+import { AdminEntity, GiftRedeemEntity } from './entities';
 import { GiftEntity } from './entities';
 import { PointCollectionEntity } from './entities';
 import { Store } from './entities';
@@ -18,6 +18,7 @@ import { GiftRedeemModule } from './modules/gift_redeems/gift_redeem.module';
 import { TwilioModule } from './modules/twilio/twilio.module';
 import { ConfigModule } from '@nestjs/config';
 import { IsUniqueConstraint } from './modules/shared/validator/is-unique-constraint';
+import { AdminModule } from './modules/admins/admin.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { IsUniqueConstraint } from './modules/shared/validator/is-unique-constra
         GiftEntity,
         PointCollectionEntity,
         Store,
-        UserEntity
+        UserEntity,
+        AdminEntity
       ],
       synchronize: false,  // migration
     }),
@@ -45,6 +47,7 @@ import { IsUniqueConstraint } from './modules/shared/validator/is-unique-constra
     PointCollectionModule,
     GiftRedeemModule,
     TwilioModule,
+    AdminModule,
     ConfigModule.forRoot({
       isGlobal: true,  // Make the ConfigModule global
     }),

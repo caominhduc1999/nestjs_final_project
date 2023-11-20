@@ -12,9 +12,9 @@ require('cookie-parser');
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, {
-    logger: WinstonModule.createLogger({
-      instance: instance,
-    }),
+    // logger: WinstonModule.createLogger({
+    //   instance: instance,
+    // }),
   });
   app.useGlobalPipes(new ValidationPipe());
   useContainer(app.select(AppModule), {fallbackOnErrors: true})
@@ -40,6 +40,6 @@ async function bootstrap() {
       }
     })
     .filter(item => item !== undefined);
-  // console.log(availableRoutes);
+  console.log(availableRoutes);
 }
 bootstrap();

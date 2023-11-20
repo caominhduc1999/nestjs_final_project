@@ -10,12 +10,13 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { JwtService } from '@nestjs/jwt/dist';
 import { UserRepository } from '../users/repository/user.repository';
-
+import { AdminRepository } from '../admins/repository/admin.repository';
 @Injectable()
 export class AuthService {
     constructor(
         private readonly storeRepository: StoreRepository,
         private readonly userRepository: UserRepository,
+        private readonly adminRepository: AdminRepository,
         private jwtService: JwtService
     ) {
       
@@ -48,6 +49,9 @@ export class AuthService {
         } else if (type === 'store') {
             entity = await this.storeRepository.findOneBy('email', email);
             entityName = 'Store';
+        } else if (type === 'admin') {
+            entity = await this.adminRepository.findOneBy('email', email);
+            entityName = 'Admin';
         } else {
             ErrorHelper.BadRequestException('Invalid entity type');
         }
@@ -56,7 +60,7 @@ export class AuthService {
             ErrorHelper.BadRequestException(`Invalid ${entityName} credentials`);
         }
 
-        if (entityName == 'Store') {
+        if (entityName == 'Store' || entityName == 'Admin') {
             if (!await bcrypt.compare(password, entity.password)) {
                 ErrorHelper.BadRequestException(`Invalid ${entityName} credentials`);
             }
@@ -100,6 +104,8 @@ export class AuthService {
                 entity = await this.userRepository.findOneBy('id', decoded.id);
             } else if (type === 'store') {
                 entity = await this.storeRepository.findOneBy('id', decoded.id);
+            } else if (type === 'admin') {
+                entity = await this.adminRepository.findOneBy('id', decoded.id);
             } else {
                 ErrorHelper.UnauthorizedException('Invalid token type');
             }
